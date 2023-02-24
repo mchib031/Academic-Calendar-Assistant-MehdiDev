@@ -19,60 +19,65 @@
           </mat-card-header>
           <mat-card-content>
             <div *ngFor="let deliverable of deliverables">
-              <mat-accordion>
-                <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                  <mat-expansion-panel-header>
-                    <mat-panel-title>
-                      {{deliverable.type}}
-                    </mat-panel-title>
-                    <mat-panel-description>
-                      {{panelOpenState ? 'click on the arrow to close the details' : 'click on the arrow to view more details'}}
-                    </mat-panel-description>
-                  </mat-expansion-panel-header>
-                  <mat-form-field hintLabel="" appearance="fill" class="example-form-field">
-                    <mat-label>Deliverable type: </mat-label>
-                    <input matInput #input placeholder="Ex. Assignment" [(ngModel)]="deliverable.type" required>
-                  </mat-form-field>
+              <mat-panel-title>{{deliverable.type}}</mat-panel-title>
+              <mat-card-title></mat-card-title>
+              <button  mat-icon-button  [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+             
+                    <mat-menu #menu="matMenu"  yPosition="below">
+                      <form (click)="$event.stopPropagation()">
+                       
+                        <mat-form-field hintLabel="" appearance="fill" class="example-form-field">
+                          <mat-label>{{deliverable.type}} </mat-label>
+                          <input matInput #input placeholder="Ex. Assignment" [(ngModel)]="deliverable.type" required>
+                        </mat-form-field>
+                        <mat-form-field hintLabel="" appearance="fill" class="example-form-field">
+                          <mat-label>Description: </mat-label>
+                          <input matInput #input placeholder="Ex. SEG4910 deliverable" [(ngModel)]="deliverable.description" name="description">
+                        </mat-form-field>
+                        <mat-form-field hintLabel="" appearance="fill">
+                          <mat-label>Location:</mat-label>
+                          <input matInput #input placeholder="Ex. Ottawa" [(ngModel)]="deliverable.location">
+                          <i class="material-icons" matSuffix>location_on</i>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="example-form-field">
+                          <mat-label>Start Date:</mat-label>
+                          <input matInput [matDatepicker]="datepicker" [(ngModel)]="deliverable.startDate" name="astartdate">
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                          <mat-datepicker #datepicker>
+                            <mat-datepicker-actions>
+                              <button mat-button matDatepickerCancel>Cancel</button>
+                              <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                            </mat-datepicker-actions>
+                          </mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill" class="example-form-field">
+                          <mat-label>Due date:</mat-label>
+                          <input matInput [matDatepicker]="adatepicker" [(ngModel)]="deliverable.dueDate" required>
+                          <mat-hint>MM/DD/YYYY</mat-hint>
+                          <mat-datepicker-toggle matIconSuffix [for]="adatepicker" name="adatepicker" ></mat-datepicker-toggle>
+                          <mat-datepicker #adatepicker>
+                            <mat-datepicker-actions>
+                              <button mat-button matDatepickerCancel>Cancel</button>
+                              <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+                            </mat-datepicker-actions>
+                          </mat-datepicker>
+                        </mat-form-field>
+                        
+                    </form>
+                    </mat-menu>
+                   
+                 
 
-                  <mat-form-field appearance="fill" class="example-form-field">
-                    <mat-label>Start Date:</mat-label>
-                    <input matInput [matDatepicker]="datepicker" [(ngModel)]="deliverable.startDate">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datepicker>
-                      <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                      </mat-datepicker-actions>
-                    </mat-datepicker>
-                  </mat-form-field>
-
-                  <mat-form-field appearance="fill" class="example-form-field">
-                    <mat-label>Due date:</mat-label>
-                    <input matInput [matDatepicker]="adatepicker" [(ngModel)]="deliverable.dueDate" required>
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="adatepicker"></mat-datepicker-toggle>
-                    <mat-datepicker #adatepicker>
-                      <mat-datepicker-actions>
-                        <button mat-button matDatepickerCancel>Cancel</button>
-                        <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
-                      </mat-datepicker-actions>
-                    </mat-datepicker>
-                  </mat-form-field>
-                  <mat-form-field hintLabel="" appearance="fill" class="example-form-field">
-                    <mat-label>Description: </mat-label>
-                    <input matInput #input placeholder="Ex. SEG4910 deliverable" [(ngModel)]="deliverable.description">
-                  </mat-form-field>
-                  <mat-form-field hintLabel="" appearance="fill">
-                    <mat-label>Location:</mat-label>
-                    <input matInput #input placeholder="Ex. Ottawa" [(ngModel)]="deliverable.location">
-                    <i class="material-icons" matSuffix>location_on</i>
-                  </mat-form-field>
-                </mat-expansion-panel>
-              </mat-accordion>
+                 
+           
             </div>
           </mat-card-content>
         </mat-card>
+
+       
 
       </mat-grid-list>
     </mat-tab>
@@ -141,67 +146,7 @@
   </mat-tab-group>
 
 
-  <div class="example-container">
-    <h2>January</h2>
-  
-    <div
-      cdkDropList
-      #jan="cdkDropList"
-      [cdkDropListData]="January"
-      [cdkDropListConnectedTo]="[feb, mar, apr]"
-   
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of January" cdkDrag>{{item}}</div>
-    </div>
-  </div>
-  
-  <div class="example-container">
-    <h2>February</h2>
-  <!-- [cdkDropListConnectedTo]="[mar]"
-      [cdkDropListConnectedTo]="[apr]"
-       [cdkDropListConnectedTo]="[mar]"
-      [cdkDropListConnectedTo]="[apr]" -->
-    <div
-      cdkDropList
-      #feb="cdkDropList"
-      [cdkDropListData]="February"
-      [cdkDropListConnectedTo]="[jan, mar, apr]"
-      
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of February" cdkDrag>{{item}}</div>
-    </div>
-  </div>
 
-  <div class="example-container">
-    <h2>March</h2>
-  
-    <div
-      cdkDropList
-      #mar="cdkDropList"
-      [cdkDropListData]="March"
-      [cdkDropListConnectedTo]="[jan, feb, apr]"
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of March" cdkDrag>{{item}}</div>
-    </div>
-  </div>
-
-  <div class="example-container">
-    <h2>April</h2>
-  
-    <div
-      cdkDropList
-      #apr="cdkDropList"
-      [cdkDropListData]="April"
-      [cdkDropListConnectedTo]="[jan,  feb, mar]"
-
-      class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of April" cdkDrag>{{item}}</div>
-    </div>
-  </div>
   
   
 
