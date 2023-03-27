@@ -18,6 +18,7 @@
             <mat-card-title>List of deliverables:</mat-card-title>
           </mat-card-header>
           <mat-card-content>
+         
             <div *ngFor="let deliverable of deliverables">
               <mat-accordion>
                 <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">

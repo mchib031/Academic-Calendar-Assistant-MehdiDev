@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInput } from '@angular/material/input';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {HttpClient} from "@angular/common/http";
 
 import { SendScheduleService } from '../send-schedule.service';
 
@@ -36,11 +37,31 @@ export class CreateScheduleComponent {
 
   panelOpenState = false;
 
-  deliverables = mockSchedules;
-  
-  constructor(public dialog: MatDialog, private sendSchduleSvc: SendScheduleService) {
+ // deliverables :Deliverable[]=[];
+ deliverables = mockSchedules;
+  constructor(public dialog: MatDialog, private sendSchduleSvc: SendScheduleService,private http:HttpClient) {
     sendSchduleSvc.sc = mockSchedules
   }
+
+
+  //getting the data from the db
+  //didn't work
+  // ngOnInit(){
+  //   this.quizAll();
+  // }
+  data:any[]=[];
+  quizAll(){
+    this.http.get<any>('https://localhost:3000/event/').subscribe(response=>
+    {
+      console.log(response);
+      // @ts-ignore
+      this.data=response;
+      console.log(this.data)
+
+     });
+
+  }
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(AddScheduleComponent, {
@@ -55,8 +76,15 @@ export class CreateScheduleComponent {
       console.log("result.type",result.type);
       console.log(mockSchedules);
       this.sendSchduleSvc.sc = mockSchedules;
+      this.addNewUser();
+      this.quizAll();
     });
     
+    
+  }
+  addNewUser(){
+    alert("hi");
+    //this.http.post("", )
   }
 
   January = ['Assignment 1','Assignment 1','Assignment 1','Assignment 1','Assignment 1'];
